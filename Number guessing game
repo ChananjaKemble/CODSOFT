@@ -61,16 +61,18 @@ public class game {
         if (attempts == maxAttempts && userInput != numberToGuess) {
             System.out.println("Sorry, you've reached the maximum number of attempts. The correct number was: " + numberToGuess);
         }
-
+        
         return attempts; // Return the number of attempts taken in this round
     }
 
     private static int calculateScore(int attempts) {
-        final int MAX_ATTEMPTS = 5; // Maximum allowed attempts
-        final int MAX_SCORE = 100; // Maximum score achievable
-
-        int score = (MAX_ATTEMPTS - attempts) * (MAX_SCORE / MAX_ATTEMPTS); // Calculate score
-
-        return Math.max(0, score); // Ensure score is non-negative
+    	 final int MAX_SCORE = 100; // Maximum score achievable
+    	    final int SCORE_STEP = 20; // Score decrement per additional attempt
+    	    
+    	    // Calculate the score based on the number of attempts
+    	    int score = MAX_SCORE - (attempts - 1) * SCORE_STEP;
+    	    
+    	    // Ensure the score doesn't go below the minimum score of 20
+    	    return Math.max(20, score);
     }
 }
