@@ -66,13 +66,18 @@ public class game {
     }
 
     private static int calculateScore(int attempts) {
-    	 final int MAX_SCORE = 100; // Maximum score achievable
-    	    final int SCORE_STEP = 20; // Score decrement per additional attempt
-    	    
-    	    // Calculate the score based on the number of attempts
-    	    int score = MAX_SCORE - (attempts - 1) * SCORE_STEP;
-    	    
-    	    // Ensure the score doesn't go below the minimum score of 20
-    	    return Math.max(20, score);
-    }
+        final int FIRST_ATTEMPT_SCORE = 100; // Score for the first attempt
+        final int SCORE_DECREMENT = 20; // Score decrement per additional attempt
+        
+        // If the user guesses correctly on the first attempt, return the first attempt score
+        if (attempts == 1) {
+            return FIRST_ATTEMPT_SCORE;
+        }
+        
+        // Otherwise, calculate the score based on the number of attempts
+        int score = FIRST_ATTEMPT_SCORE - (attempts - 1) * SCORE_DECREMENT;
+        
+        // Ensure the score doesn't go below the minimum score of 20
+        return Math.max(20, score);
+    	}
 }
