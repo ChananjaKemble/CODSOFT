@@ -1,0 +1,76 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class game {
+
+    public static void main(String[] args) {
+        Scanner replay = new Scanner(System.in);
+        int totalAttempts = 0; // Initialize total attempts
+        int totalScore = 0; // Initialize total score
+
+        do {
+            int attempts = playGame(); // Call the playGame method and store the attempts
+            totalAttempts += attempts; // Add the attempts from the current round to the total
+            totalScore += calculateScore(attempts); // Calculate and add the score for this round
+
+            System.out.println("Do you want to replay the game? (yes/no)");
+
+            if (replay.hasNext()) {
+                String playAgain = replay.next();
+
+                if (!playAgain.equalsIgnoreCase("yes")) {
+                    System.out.println("Thanks for playing. Goodbye!");
+                    break;
+                }
+            }
+        } while (true);
+
+        replay.close();
+
+        System.out.println("Your total score (based on total attempts): " + totalScore);
+    }
+
+    private static int playGame() {
+        // Random number generator
+        Random number = new Random();
+        int numberToGuess = number.nextInt(50) + 1;
+
+        // User input
+        Scanner guess = new Scanner(System.in);
+        int maxAttempts = 5;
+        int attempts = 0;
+        int userInput = 0;
+
+        System.out.println("Welcome to the number guessing game!");
+        System.out.println("Guess a random number between 1 and 50:");
+
+        while (attempts < maxAttempts) {
+            userInput = guess.nextInt();
+            attempts++;
+
+            if (userInput == numberToGuess) {
+                System.out.println("Congratulations, you guessed the number right!");
+                break;
+            } else if (userInput < numberToGuess) {
+                System.out.println("Your guess is too low. Try again:");
+            } else {
+                System.out.println("Your guess is too high. Try again:");
+            }
+        }
+
+        if (attempts == maxAttempts && userInput != numberToGuess) {
+            System.out.println("Sorry, you've reached the maximum number of attempts. The correct number was: " + numberToGuess);
+        }
+
+        return attempts; // Return the number of attempts taken in this round
+    }
+
+    private static int calculateScore(int attempts) {
+        final int MAX_ATTEMPTS = 5; // Maximum allowed attempts
+        final int MAX_SCORE = 100; // Maximum score achievable
+
+        int score = (MAX_ATTEMPTS - attempts) * (MAX_SCORE / MAX_ATTEMPTS); // Calculate score
+
+        return Math.max(0, score); // Ensure score is non-negative
+    }
+}
