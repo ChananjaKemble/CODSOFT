@@ -1,0 +1,101 @@
+import java.util.Scanner;
+
+public class ATM_Machine {
+    private BankAccount bankAccount; 
+
+    
+    public ATM_Machine(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    // Main method to run the ATM machine
+    public static void main(String[] args) {
+        BankAccount userAccount = new BankAccount(1000); 
+        ATM_Machine atmMachine = new ATM_Machine(userAccount); 
+        Scanner scan = new Scanner(System.in); 
+
+        int choice;
+        do {
+            atmMachine.displayOptions(); // Display options to the user
+            choice = scan.nextInt(); // Take user's choice
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter amount to withdraw: ");
+                    double withdrawAmount = scan.nextDouble();
+                    atmMachine.withdraw(withdrawAmount); // Withdraw money from the bank account
+                    break;
+                case 2:
+                    System.out.print("Enter amount to deposit: ");
+                    double depositAmount = scan.nextDouble();
+                    atmMachine.deposit(depositAmount); // Deposit money into the bank account
+                    break;
+                case 3:
+                    atmMachine.checkBalance(); // Check the balance of the bank account
+                    break;
+                case 4:
+                    System.out.println("Thank you for using this service. Have a nice day!"); // Exit the ATM
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again."); // Display message for invalid choice
+            }
+        } while (choice != 4); // Continue running until the user chooses to exit
+
+        scan.close(); 
+    }
+
+    // Method to display options to the user
+    public void displayOptions() {
+        System.out.println("Welcome to your trusted ATM!");
+        System.out.println("Enter your choice: ");
+        System.out.println("1. Withdraw");
+        System.out.println("2. Deposit");
+        System.out.println("3. Check Balance");
+        System.out.println("4. Exit");
+    }
+
+    // Method to withdraw money from the bank account
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= bankAccount.getBalance()) { 
+            bankAccount.setBalance(bankAccount.getBalance() - amount); 
+            System.out.println("Withdrawal successful. Remaining balance: " + bankAccount.getBalance());
+        } else {
+            System.out.println("Invalid amount or insufficient balance."); 
+        }
+    }
+
+    // Method to deposit money into the bank account
+    public void deposit(double amount) {
+        if (amount > 0) { // Check if the deposit amount is valid
+            bankAccount.setBalance(bankAccount.getBalance() + amount); // Update the balance after deposit
+            System.out.println("Deposit successful. New balance: " + bankAccount.getBalance());
+        } else {
+            System.out.println("Invalid amount."); // Display message for invalid deposit
+        }
+    }
+
+    // Method to check the balance of the bank account
+    public void checkBalance() {
+        System.out.println("Current balance: " + bankAccount.getBalance());
+    }
+}
+
+// Class to represent the user's bank account
+class BankAccount {
+    private double balance; 
+
+    // Constructor to initialize the bank account with a balance
+    public BankAccount(double balance) {
+        this.balance = balance;
+    }
+
+    // Method to get the balance
+    public double getBalance() {
+        return balance;
+    }
+
+    // Method to set the balance
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+}
